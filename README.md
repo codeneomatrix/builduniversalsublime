@@ -21,9 +21,13 @@ Primero verifica que el archivo tenga permiso de ejecucion.
 y configura las primeras lineas si es nesesario
 
 tipo="gnome"        # manejador de la venta se puede cambiar por : kde, pantheon, etc
+
 ensamblador="NASM"  # ensamblador a usar se puede modificar a: SINSO para ejecutar codigo de funciona sin S.O.
+
 navegador="firefox" # navegador por defecto se puede cambiar por: opera, chrome, etc
+
 bits="32"           # modo de compilacion de ensamblador se puede modifar a 64
+
 debug="false"       # modo de debug de ensamblador se puede modificar a true
 
 - en tipo se especifica el manejador de ventanas de la consola este puede ser: gnome, kde, pantheon, etc 
