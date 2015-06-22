@@ -118,7 +118,7 @@ then
 
       if [ ! -f $del/profiles.clj ];
       then
-      echo " ejecuta estas instrucciones en una terminal: sudo su; echo "{:user {:plugins [[lein-exec "0.3.5"]]}}" > $del/profiles.clj"
+      echo " ejecuta estas instrucciones en una terminal: sudo su; echo "{:user {:plugins [[lein-exec "0.3.5"]]}}" > $del/profiles.clj;"
       fi
 
       echo "Esto es un clojure"
@@ -298,7 +298,7 @@ del=${del#*:}
 
 if [ ! -f $del/profiles.clj ];
 then
-echo " ejecuta estas instrucciones en una terminal: sudo su; echo "{:user {:plugins [[lein-exec "0.3.5"]]}}" > $del/profiles.clj"
+echo " ejecuta estas instrucciones en una terminal: sudo su; echo "{:user {:plugins [[lein-exec "0.3.5"]]}}" > $del/profiles.clj;"
 fi
 
 echo "Esto es un clojure"
