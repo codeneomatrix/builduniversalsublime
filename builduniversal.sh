@@ -30,10 +30,12 @@ echo $ubi
 nombrear="ninguno"
 extencion="ninguno"
 extencion=${ubi#*.}
-echo $extencion 
+echo $extencion
+#nombre=${ubi##*/}
+#echo $nombre
 
 UB=${ubi%.*}
-#echo $UB   
+#echo $UB
 
 archivo=$( file -b $ubi )
 archivo=${archivo%,*}
@@ -43,7 +45,7 @@ archivo=$(echo $archivo | awk '{print tolower($0)}')
 
 ejecuta() {
 
- $tipo-terminal -e "/bin/bash -c '$comando; echo; read -p 'Pulse_intro_pasa_salir...'; exit; exec /bin/bash';" 
+ $tipo-terminal -e "/bin/bash -c '$comando; echo; read -p 'Pulse_intro_pasa_salir...'; exit; exec /bin/bash';"
 
 exit $?
 }
@@ -57,61 +59,61 @@ pextencion(){
 if [[ $comando =~ "identificado" ]]
 then
 
-   if [ $extencion = "js"  ] 
+   if [ $extencion = "js"  ]
    then
-    echo "javascritp" 
-    echo "<!DOCTYPE HTML><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title></title></head><body><p><script src="$ubi"></script></p></body></html>" > $UB.html
+    echo "javascritp"
+    echo "<!DOCTYPE HTML><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title></title></head>  <body>   <script src="$ubi"></script>  </body>    </html>" > $UB.html
     comando="$navegador $UB.html"
     ejecuta
    fi
 
-   if [ $extencion = "rb"  ] 
+   if [ $extencion = "rb"  ]
    then
     echo "este es un ruby"
     comando="ruby $ubi"
     ejecuta
    fi
 
-   if [ $extencion = "py"  ] 
+   if [ $extencion = "py"  ]
    then
     comando="python $ubi"
     ejecuta
    fi
 
-   if [ $extencion = "pl"  ] 
+   if [ $extencion = "pl"  ]
    then
     comando="perl $ubi"
     ejecuta
    fi
 
-   if [ $extencion = "jl"  ] 
+   if [ $extencion = "jl"  ]
    then
     comando="julia $ubi"
     ejecuta
    fi
 
-   if [ $extencion = "java"  ] 
+   if [ $extencion = "java"  ]
    then
       echo "Esto es java"
       comando="javac $ubi; java $nombre"
       ejecuta
    fi
 
-   if [ $extencion = "cpp" ] || [ $extencion = "c"  ] 
+   if [ $extencion = "cpp" ] || [ $extencion = "c"  ]
    then
       echo "Esto es c"
-      comando=" gcc "$ubi" -o $nombre; ./$nombre"
+      comando=" gcc "$ubi" -o $nombre -lm; ./$nombre"
       ejecuta
    fi
 
-   if [ $extencion = "sh"  ] 
+   if [ $extencion = "sh"  ]
    then
       echo "Este es un bash"
       comando="sh $ubi"
       ejecuta
    fi
 
-   if [ $extencion = "clj"  ] 
+   if [ $extencion = "clj"  ]
    then
       del=$(whereis .lein)
       del=${del#*:}
@@ -126,35 +128,35 @@ then
       ejecuta
    fi
 
-   if [ $extencion = "asm"  ] 
+   if [ $extencion = "asm"  ]
 then
 
 
  if [ $ensamblador = "NASM" ]
  then
-   
-   if [ $bits = "32" ] && [ $debug = "false" ] 
+
+   if [ $bits = "32" ] && [ $debug = "false" ]
    then
    echo "ensamblador 32 bits"
    comando="sudo nasm -f elf  $ubi; ld -m elf_i386 -s -o $nombre $nombre.o;sudo ./$nombre"
    ejecuta
    fi
 
-   if [ $bits = "64" ] && [ $debug = "false" ] 
+   if [ $bits = "64" ] && [ $debug = "false" ]
    then
    echo "ensamblador 64 bits"
    comando="sudo nasm -f elf64  $ubi; ld -m elf_x86_64 -s -o $nombre $nombre.o;sudo ./$nombre"
    ejecuta
    fi
-   
-   if [ $bits = "32" ] && [ $debug = "true" ] 
+
+   if [ $bits = "32" ] && [ $debug = "true" ]
    then
    echo "ensamblador 32 bits [DEBUG]"
    comando="sudo nasm -f elf  $ubi; ld -m elf_i386 -s -o $nombre $nombre.o;sudo strace ./$nombre; size $nombre; objdump -x $nombre;objdump -D $nombre"
    ejecuta
    fi
-   
-   if [ $bits = "64" ] && [ $debug = "true" ] 
+
+   if [ $bits = "64" ] && [ $debug = "true" ]
    then
    echo "ensamblador 64 bits [DEBUG]"
    comando="sudo nasm -f elf64  $ubi; ld -m elf_x86_64 -s -o $nombre $nombre.o;sudo strace ./$nombre; size $nombre; objdump -x $nombre;objdump -D $nombre"
@@ -162,12 +164,12 @@ then
    fi
 
 fi
-   
+
    #if [ $ensamblador = "TASM" ]
    #comando="$1"
    #ejecuta
    #fi
-   
+
    if [ $ensamblador = "SINSO" ]
    then
    echo "ensamblador 32 sin S.O"
@@ -194,11 +196,11 @@ then
    echo "Este es un perl"
 #perl $1
 
-#if [ $? -eq 0 ] 
-#then 
+#if [ $? -eq 0 ]
+#then
     comando="perl $1"
     ejecuta
-#fi 
+#fi
 
 fi
 
@@ -217,11 +219,11 @@ then
 
    gcc "$1" 2> /dev/null
 
-   if [ $? -eq 0 ] 
-then 
-    comando=" gcc "$1" -o $2; ./$2"
+   if [ $? -eq 0 ]
+then
+    comando=" gcc "$1" -o $2 -lm; ./$2 "
     ejecuta
-fi 
+fi
 
 fi
 
@@ -231,11 +233,11 @@ then
 
    g++ "$1" 2> /dev/null
 
-   if [ $? -eq 0 ] 
-then 
+   if [ $? -eq 0 ]
+then
     comando=" g++ "$1" -o $2; ./$2"
     ejecuta
-fi 
+fi
 
 fi
 
@@ -248,7 +250,7 @@ fi
 
 if [[ $archivo =~ "javascritp" ]]
 then
-   echo "javascritp" 
+   echo "javascritp"
     echo "<!DOCTYPE HTML><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title></title></head><body><p><script src="$1"></script></p></body></html>" > $UB.html
     comando="$navegador $UB.html"
     ejecuta
@@ -309,7 +311,3 @@ fi
 
 
  pextencion
-
-
-
-
